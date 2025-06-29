@@ -14,8 +14,8 @@ export const createPostService = async (createPostObject) => {
   return post;
 };
 
-export const findAllPostsService = async () => {
-  const posts = await findAllPosts();
+export const findAllPostsService = async (page, limit) => {
+  const posts = await findAllPosts(page, limit);
   return posts;
 };
 

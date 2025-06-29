@@ -1,4 +1,3 @@
-// cloudinaryUploader.js
 import multer from "multer";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import { cloudinary } from "./cloudinaryConfig.js";
@@ -14,7 +13,7 @@ const storage = new CloudinaryStorage({
       );
     }
     return {
-      folder: "my_app_uploads", // Name of the folder in your Cloudinary account
+      folder: "imageGram_Uploads", // Name of the folder in your Cloudinary account
       format: file.mimetype.split("/")[1], // Use the original format
       public_id: file.fieldname + "-" + Date.now(), // Unique name
     };

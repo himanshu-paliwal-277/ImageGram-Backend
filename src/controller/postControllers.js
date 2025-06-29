@@ -25,7 +25,9 @@ export const createPostController = async (req, res) => {
 };
 
 export const findAllPostsController = async (req, res) => {
-  const posts = await findAllPostsService();
+  const page = req.query.page || 1;
+  const limit = req.query.limit || 10;
+  const posts = await findAllPostsService(page, limit);
   return res.status(200).json({
     success: true,
     message: "post fetch successfully",

@@ -1,4 +1,3 @@
-// cloudinaryConfig.js
 import { v2 as cloudinary } from "cloudinary";
 import {
   CLOUDINARY_CLOUD_NAME,

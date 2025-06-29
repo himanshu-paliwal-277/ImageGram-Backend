@@ -9,11 +9,11 @@ export const createPost = async (caption, image, user) => {
   }
 };
 
-// find all, update post, delete post, find by id
-
-export const findAllPosts = async () => {
+export const findAllPosts = async (page, limit) => {
   try {
-    const posts = await Post.find();
+    const posts = await Post.find()
+      .skip((page - 1) * limit)
+      .limit(limit);
     return posts;
   } catch (error) {
     console.log(error);
