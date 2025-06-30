@@ -7,7 +7,8 @@ import {
   updatePostByIdController,
 } from "../../controller/postControllers.js";
 import { cloudinaryUploader } from "../../config/cloudinaryUploader.js";
-import { createUserController } from "../../controller/userControllers.js";
+import { validate } from "../../validation/zodValidator.js";
+import { zodPostSchema } from "../../validation/zodPostSchema.js";
 
 const router = express.Router();
 
@@ -15,12 +16,19 @@ router.get("/", findAllPostsController);
 
 router.get("/:id", findPostByIdController);
 
-router.put("/:id", updatePostByIdController);
+router.put(
+  "/:id",
+  cloudinaryUploader.single("image"),
+  updatePostByIdController
+);
 
-router.post("", cloudinaryUploader.single("image"), createPostController);
+router.post(
+  "",
+  cloudinaryUploader.single("image"),
+  validate(zodPostSchema),
+  createPostController
+);
 
 router.delete("/:id", deletePostByIdController);
-
-router.post("/user", createUserController);
 
 export default router;

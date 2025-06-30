@@ -1,4 +1,5 @@
 import {
+  countTotalPosts,
   createPost,
   deletePostById,
   findAllPosts,
@@ -16,16 +17,20 @@ export const createPostService = async (createPostObject) => {
 
 export const findAllPostsService = async (page, limit) => {
   const posts = await findAllPosts(page, limit);
-  return posts;
+  const totalPosts = await countTotalPosts();
+  const totalPage = Math.ceil(totalPosts / limit);
+
+  return {
+    posts: posts,
+    totalPosts: totalPosts,
+    totalPage: totalPage,
+  };
 };
 
 export const deletePostByIdService = async (id) => {
-  if (!id) return;
-  const isPostExist = await findPostById(id);
-  if (!isPostExist) return;
-
-  const post = await deletePostById(id);
-  return post;
+  const response = await deletePostById(id);
+  // also delete the image from cloudinary
+  return response;
 };
 
 export const findPostByIdService = async (id) => {
@@ -34,6 +39,7 @@ export const findPostByIdService = async (id) => {
 };
 
 export const updatePostByIdService = async (id, updatedPost) => {
-  const post = await updatePostById(id, updatedPost);
-  return post;
+  const response = await updatePostById(id, updatedPost);
+  // also update the image and delete old image from cloudinary
+  return response;
 };

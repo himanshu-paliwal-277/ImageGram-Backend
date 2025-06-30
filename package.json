@@ -1,5 +1,5 @@
 {
-  "name": "imagegram",
+  "name": "image-gram",
   "version": "1.0.0",
   "main": "index.js",
   "type": "module",
@@ -18,7 +18,8 @@
     "express": "^5.1.0",
     "mongoose": "^8.16.0",
     "multer": "^2.0.1",
-    "multer-storage-cloudinary": "^4.0.0"
+    "multer-storage-cloudinary": "^4.0.0",
+    "zod": "^3.25.67"
   },
   "devDependencies": {
     "eslint": "^9.29.0",

@@ -12,12 +12,18 @@ export const createPost = async (caption, image, user) => {
 export const findAllPosts = async (page, limit) => {
   try {
     const posts = await Post.find()
+      .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
       .limit(limit);
     return posts;
   } catch (error) {
     console.log(error);
   }
+};
+
+export const countTotalPosts = async () => {
+  const count = await Post.countDocuments();
+  return count;
 };
 
 export const findPostById = async (id) => {
@@ -31,8 +37,8 @@ export const findPostById = async (id) => {
 
 export const deletePostById = async (id) => {
   try {
-    const post = await Post.findByIdAndDelete(id);
-    return post;
+    const response = await Post.findByIdAndDelete(id);
+    return response;
   } catch (error) {
     console.log(error);
   }
@@ -40,8 +46,10 @@ export const deletePostById = async (id) => {
 
 export const updatePostById = async (id, updatedPost) => {
   try {
-    const post = await Post.updateOne({ _id: id }, updatedPost);
-    return post;
+    const response = await Post.findByIdAndUpdate(id, updatedPost, {
+      new: true,
+    });
+    return response;
   } catch (error) {
     console.log(error);
   }

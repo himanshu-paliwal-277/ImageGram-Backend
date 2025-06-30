@@ -6,6 +6,11 @@ import { cloudinary } from "./cloudinaryConfig.js";
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: async (req, file) => {
+    // Check if file is present
+    if (!file) {
+      console.log(file);
+      throw new Error("File not found");
+    }
     // Validate mimetype before uploading to Cloudinary
     if (file.mimetype !== "image/jpeg" && file.mimetype !== "image/png") {
       throw new Error(
