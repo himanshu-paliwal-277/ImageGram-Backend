@@ -1,10 +1,17 @@
 import { createUser } from "../repository/userRepository.js";
 
-export const createUserService = async (createUserObject) => {
-  const userName = createUserObject?.userName?.trim();
-  const email = createUserObject?.email?.trim();
-  const password = createUserObject?.password?.trim();
+export const signupUserService = async (user) => {
+  try {
+    const newUser = await createUser(user);
 
-  const user = await createUser(userName, email, password);
-  return user;
+    return newUser;
+  } catch (error) {
+    if (error.name === "MongoServerError" && error.code === 11000) {
+      throw {
+        status: 400,
+        message: "User with the same email or username already exists",
+      };
+    }
+    throw error;
+  }
 };

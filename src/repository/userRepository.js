@@ -1,11 +1,12 @@
 import User from "../schema/User.js";
 
-export const createUser = async (userName, email, password) => {
+export const createUser = async (user) => {
   try {
-    const newUser = await User.create({ userName, email, password });
+    const newUser = await User.create(user);
     return newUser;
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
 

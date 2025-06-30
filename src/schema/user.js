@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 
 const userSchema = mongoose.Schema(
   {
@@ -28,6 +29,19 @@ const userSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
+
+userSchema.pre("save", function modifyPassword(next) {
+  // incoming user object
+  const user = this; // object with plan password
+
+  const salt = bcrypt.genSaltSync(9);
+
+  // hash password
+
+  const hashedPassword = bcrypt.hashSync(user.password, salt);
+  user.password = hashedPassword;
+  next();
+});
 
 const User = mongoose.model("users", userSchema); // user collection
 
