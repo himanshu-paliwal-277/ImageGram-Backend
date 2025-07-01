@@ -10,8 +10,9 @@ import {
 export const createPostService = async (createPostObject) => {
   const caption = createPostObject?.caption?.trim();
   const image = createPostObject?.image;
+  const user = createPostObject?.user;
 
-  const post = await createPost(caption, image, "685e59580072fb10f5f6f8e6");
+  const post = await createPost(caption, image, user);
   return post;
 };
 
@@ -27,7 +28,25 @@ export const findAllPostsService = async (page, limit) => {
   };
 };
 
-export const deletePostByIdService = async (id) => {
+export const deletePostByIdService = async (id, user) => {
+  // the user who owner of the post can delete the post
+
+  const post = await findPostById(id);
+
+  if (!post) {
+    throw {
+      status: 404,
+      message: "Post not found",
+    };
+  }
+
+  if (post?.user.toString() !== user) {
+    throw {
+      status: 401,
+      message: "Unauthorized",
+    };
+  }
+
   const response = await deletePostById(id);
   // also delete the image from cloudinary
   return response;

@@ -7,7 +7,7 @@ import {
 } from "../services/postService.js";
 
 export const createPostController = async (req, res) => {
-  if (!req.file || !req.file.location) {
+  if (!req.file || !req.file.path) {
     return res.status(400).json({
       success: false,
       message: "Image is required",
@@ -17,6 +17,7 @@ export const createPostController = async (req, res) => {
   const post = await createPostService({
     caption: req.body.caption,
     image: req.file.path,
+    user: req.user._id,
   });
 
   return res.status(201).json({
@@ -46,15 +47,11 @@ export const findAllPostsController = async (req, res) => {
 
 export const deletePostByIdController = async (req, res) => {
   try {
+    // uploaded image will also be deleted from cloudinary
     const { id } = req.params;
+    const user = req.user._id;
 
-    const response = await deletePostByIdService(id);
-    if (!response) {
-      return res.status(404).json({
-        success: false,
-        message: "post not found",
-      });
-    }
+    const response = await deletePostByIdService(id, user);
 
     return res.status(200).json({
       success: true,
@@ -63,6 +60,12 @@ export const deletePostByIdController = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    if (error.status) {
+      return res.status(error.status).json({
+        success: false,
+        message: error.message,
+      });
+    }
     return res
       .status(500)
       .json({ success: false, message: "Internal server error" });

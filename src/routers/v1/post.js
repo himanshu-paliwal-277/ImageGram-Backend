@@ -9,10 +9,11 @@ import {
 import { cloudinaryUploader } from "../../config/cloudinaryUploader.js";
 import { validate } from "../../validation/zodValidator.js";
 import { zodPostSchema } from "../../validation/zodPostSchema.js";
+import { isAuthenticated } from "../../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.get("/", findAllPostsController);
+router.get("/", isAuthenticated, findAllPostsController);
 
 router.get("/:id", findPostByIdController);
 
@@ -24,11 +25,12 @@ router.put(
 
 router.post(
   "",
+  isAuthenticated,
   cloudinaryUploader.single("image"),
   validate(zodPostSchema),
   createPostController
 );
 
-router.delete("/:id", deletePostByIdController);
+router.delete("/:id", isAuthenticated, deletePostByIdController);
 
 export default router;

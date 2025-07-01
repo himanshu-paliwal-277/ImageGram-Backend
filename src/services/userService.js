@@ -35,10 +35,6 @@ export const signinUserService = async (userDetails) => {
       user.password
     );
 
-    console.log("userDetails.password = ", userDetails.password);
-    console.log("user.password = ", user.password);
-    console.log("isPasswordValid = ", isPasswordValid);
-
     if (!isPasswordValid) {
       throw {
         status: 401,
@@ -53,6 +49,16 @@ export const signinUserService = async (userDetails) => {
     });
 
     return token;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const checkIfUserExists = async (email) => {
+  try {
+    const user = await getUserByEmail(email);
+    return user;
   } catch (error) {
     console.log(error);
     throw error;
