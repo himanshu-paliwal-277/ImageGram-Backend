@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
+import { string } from "zod/v4";
 
 const userSchema = mongoose.Schema(
   {
@@ -20,6 +21,11 @@ const userSchema = mongoose.Schema(
         },
         message: "Invalid email format",
       },
+    },
+    role: {
+      type: String,
+      default: "user",
+      enum: ["user", "admin"],
     },
     password: {
       type: String,
