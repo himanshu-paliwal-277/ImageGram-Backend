@@ -13,7 +13,16 @@ import { isAdmin, isAuthenticated } from "../../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.get("/", isAuthenticated, findAllPostsController);
+/**
+ * @swagger
+ * /posts/:
+ *   get:
+ *     description: Returns all posts
+ *     responses:
+ *       200:
+ *         description: Returns all posts
+ */
+router.get("/", findAllPostsController);
 
 router.get("/:id", findPostByIdController);
 
@@ -25,8 +34,16 @@ router.put(
   updatePostByIdController
 );
 
+/**Add commentMore actions
+ * @swagger
+ * /posts/:
+ *  post:
+ *      summary: Create a new post
+ *      description: Create a new post
+ * 
+ */
 router.post(
-  "",
+  "/",
   isAuthenticated,
   cloudinaryUploader.single("image"),
   validate(zodPostSchema),
