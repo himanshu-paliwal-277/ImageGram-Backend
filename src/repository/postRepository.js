@@ -84,3 +84,19 @@ export const updatePostById = async (id, updatedPost) => {
     console.log(error);
   }
 };
+
+export const toggleLikeInPost = async (id, user) => {
+  try {
+    const post = await Post.findById(id);
+    if (!post.likes.includes(user)) {
+      post.likes.push(user);
+    } else {
+      post.likes = post.likes.filter((userId) => userId.toString() !== user);
+    }
+    const response = await post.save();
+    return response;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};

@@ -1,4 +1,4 @@
-import User from "../schema/User.js";
+import User from "../schema/user.js";
 
 export const createUser = async (user) => {
   try {

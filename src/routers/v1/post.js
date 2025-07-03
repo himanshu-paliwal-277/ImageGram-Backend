@@ -4,6 +4,7 @@ import {
   deletePostByIdController,
   findAllPostsController,
   findPostByIdController,
+  toggleLikeInPostController,
   updatePostByIdController,
 } from "../../controller/postControllers.js";
 import { cloudinaryUploader } from "../../config/cloudinaryUploader.js";
@@ -51,5 +52,6 @@ router.post(
 );
 
 router.delete("/:id", isAuthenticated, deletePostByIdController);
+router.post("/:id/like", isAuthenticated, toggleLikeInPostController);
 
 export default router;

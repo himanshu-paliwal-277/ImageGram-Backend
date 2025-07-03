@@ -3,6 +3,7 @@ import {
   deletePostByIdService,
   findAllPostsService,
   findPostByIdService,
+  toggleLikeInPostService,
   updatePostByIdService,
 } from "../services/postService.js";
 
@@ -101,6 +102,24 @@ export const updatePostByIdController = async (req, res) => {
         message: "post not found",
       });
     }
+    return res.status(200).json({
+      success: true,
+      message: "post updated successfully",
+      data: response,
+    });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal server error" });
+  }
+};
+
+export const toggleLikeInPostController = async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const user = req.user._id;
+    const response = await toggleLikeInPostService(postId, user);
     return res.status(200).json({
       success: true,
       message: "post updated successfully",

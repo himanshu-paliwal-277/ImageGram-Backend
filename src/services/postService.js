@@ -4,6 +4,7 @@ import {
   deletePostById,
   findAllPosts,
   findPostById,
+  toggleLikeInPost,
   updatePostById,
 } from "../repository/postRepository.js";
 
@@ -60,5 +61,10 @@ export const findPostByIdService = async (id) => {
 export const updatePostByIdService = async (id, updatedPost) => {
   const response = await updatePostById(id, updatedPost);
   // also update the image and delete old image from cloudinary
+  return response;
+};
+
+export const toggleLikeInPostService = async (postId, user) => {
+  const response = await toggleLikeInPost(postId, user);
   return response;
 };
